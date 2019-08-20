@@ -5,21 +5,25 @@ with (import (builtins.fetchTarball {
 }) {});
 let
   # TODO: move these into an attrSet
-  # <<<>>>
-  || range .PackageSets ||
+  packages = {|| range .PackageSets ||
    # Language: || .Name ||
-  ||.Name|| = [
-    || range .Modules ||||.||
-    || end ||
-  ];|| end ||
-  # <<<>>>
+    ||.Name|| = [
+      || range .Modules ||||.|||| end ||
+    ];
+              || end ||
+  };
 in
 {
+  # shell environment
   shell = pkgs.mkShell {
     name = "||.Name||-||.Version||";
-    buildInputs = lib.lists.concatLists [
-      || range .PackageSets |||| .Name ||
-      || end ||
-    ];
+    buildInputs = lib.lists.concatLists (lib.attrsets.attrValues packages);
+  };
+
+
+  # package
+  pkg = stdenv.mkDerivation {
+    name = "||.Name||-||.Version||";
+    propogatedBuildInputs = lib.lists.concatLists (lib.attrsets.attrValues packages);
   };
 }

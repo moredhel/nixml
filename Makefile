@@ -1,11 +1,11 @@
 GOPATH=${PWD}/vendor
-FILE=shell.nix
+FILE=default.nix
 
 run:
-	go run main.go | bat -l nix
+	@go run main.go | bat -l nix
 
 install:
 	go run main.go > ${FILE}
 
 build:
-	alias
+	nix-build -A pkg

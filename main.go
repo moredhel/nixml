@@ -105,7 +105,9 @@ func (DefaultHandler) Handle(pkg *PackageImportSet) (PackageSet, error) {
 var handlers = map[string]LangHandler{
 	"python": PythonHandler{
 		versionMap: map[string]string{
+			"2.7": "27",
 			"3.6": "36",
+			"3.7": "37",
 		},
 	},
 	"go": GoHandler{},
